@@ -2,6 +2,7 @@ package com.example.cell.platform.domain;
 
 import com.example.cell.platform.domain.user.Role;
 import com.example.cell.platform.domain.user.User;
+import com.example.cell.platform.entity.UserEntity;
 import com.example.cell.platform.exception.BadRequestException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -59,6 +60,35 @@ public class UserTest {
                     Arguments.of("username", null),
                     Arguments.of("username", "")
             );
+        }
+
+        @Nested
+        class of_메서드는 {
+
+            @Test
+            void UserEntity를_받아_User로_변환하다() {
+                // given
+                Long id = 1L;
+                String username = "student";
+                String password = "password";
+                Role role = Role.STUDENT;
+
+                UserEntity entity = UserEntity.builder()
+                        .id(id)
+                        .username(username)
+                        .password(password)
+                        .role(role)
+                        .build();
+
+                // when
+                User user = User.of(entity);
+
+                // then
+                assertThat(entity.getId()).isEqualTo(id);
+                assertThat(entity.getUsername()).isEqualTo(username);
+                assertThat(entity.getPassword()).isEqualTo(password);
+                assertThat(entity.getRole()).isEqualTo(role);
+            }
         }
     }
 }
