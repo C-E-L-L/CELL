@@ -1,5 +1,6 @@
 package com.example.cell.platform.domain.user;
 
+import com.example.cell.platform.entity.UserEntity;
 import com.example.cell.platform.exception.BadRequestException;
 import com.example.cell.platform.exception.ErrorCode;
 import lombok.Builder;
@@ -36,6 +37,15 @@ public class User {
                 .username(username)
                 .password(password)
                 .role(role)
+                .build();
+    }
+
+    public static User of(UserEntity entity) {
+        return User.builder()
+                .username(entity.getUsername())
+                .password(entity.getPassword())
+                .role(entity.getRole())
+                .createdAt(entity.getCreatedAt())
                 .build();
     }
 
