@@ -1,6 +1,7 @@
 package com.example.cell.platform.domain.task;
 
 import com.example.cell.platform.domain.crop.Crop;
+import com.example.cell.platform.entity.TaskEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -35,6 +36,16 @@ public class Task {
                 .originalFilename(originalFilename)
                 .uploadedFilename(uploadedFilename)
                 .crops(new ArrayList<>())
+                .build();
+    }
+
+    public static Task of(TaskEntity entity) {
+        return Task.builder()
+                .id(entity.getId())
+                .status(entity.getStatus())
+                .originalFilename(entity.getOriginalFilename())
+                .uploadedFilename(entity.getUploadedFilename())
+                .createdAt(entity.getCreatedAt())
                 .build();
     }
 }

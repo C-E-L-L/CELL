@@ -1,6 +1,7 @@
 package com.example.cell.platform.domain.submission;
 
 import com.example.cell.platform.domain.crop.CellType;
+import com.example.cell.platform.entity.SubmissionEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -29,6 +30,16 @@ public class Submission {
                 .cropId(cropId)
                 .studentId(studentId)
                 .studentLabel(studentLabel)
+                .build();
+    }
+
+    public static Submission of(SubmissionEntity entity) {
+        return Submission.builder()
+                .id(entity.getId())
+                .cropId(entity.getCrop().getId())
+                .studentId(entity.getStudentId())
+                .studentLabel(entity.getStudentLabel())
+                .submittedAt(entity.getCreatedAt())
                 .build();
     }
 }

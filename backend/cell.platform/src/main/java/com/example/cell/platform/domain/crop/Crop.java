@@ -1,5 +1,6 @@
 package com.example.cell.platform.domain.crop;
 
+import com.example.cell.platform.entity.CropEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -31,6 +32,18 @@ public class Crop {
                 .bbox(bbox)
                 .aiPrediction(aiPrediction)
                 .aiConfidence(aiConfidence)
+                .build();
+    }
+
+    public static Crop of(CropEntity entity) {
+        return Crop.builder()
+                .id(entity.getId())
+                .taskId(entity.getTaskId())
+                .cropFilename(entity.getCropFilename())
+                .bbox(entity.getBbox())
+                .aiPrediction(entity.getAiPrediction())
+                .aiConfidence(entity.getAiConfidence())
+                .finalLabel(entity.getFinalLabel())
                 .build();
     }
 }
