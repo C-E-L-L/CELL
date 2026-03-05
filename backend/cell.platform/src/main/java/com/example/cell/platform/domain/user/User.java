@@ -42,6 +42,7 @@ public class User {
 
     public static User of(UserEntity entity) {
         return User.builder()
+                .id(entity.getId())
                 .username(entity.getUsername())
                 .password(entity.getPassword())
                 .role(entity.getRole())
