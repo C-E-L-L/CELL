@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -43,6 +45,47 @@ public class UserRepositoryTest extends RepositoryContext {
                     () -> assertThat(savedUser.getRole()).isEqualTo(role),
                     () -> assertThat(savedUser.getCreatedAt()).isNotNull()
             );
+        }
+    }
+
+    @Nested
+    class findByUsername_메서드는 {
+
+        @Test
+        void 존재하는_사용자를_조회한다() {
+            // given
+            String username = "student";
+            String password = "password";
+            Role role = Role.STUDENT;
+
+            User user = User.builder()
+                    .username(username)
+                    .password(password)
+                    .role(role)
+                    .build();
+
+            User savedUser = userRepository.save(user);
+
+            // when
+            User foundUser = userRepository.findByUsername(savedUser.getUsername()).orElse(null);
+
+            // then
+            assertAll(
+                    () -> assertThat(foundUser).isNotNull(),
+                    () -> assertThat(foundUser.getId()).isEqualTo(savedUser.getId())
+            );
+        }
+
+        @Test
+        void 존재하지_않는_사용자는_빈값을_반환한다() {
+            // given
+            String username = "nonexistent";
+
+            // when
+            Optional<User> foundUser = userRepository.findByUsername(username);
+
+            // then
+            assertThat(foundUser).isEmpty();
         }
     }
 }
