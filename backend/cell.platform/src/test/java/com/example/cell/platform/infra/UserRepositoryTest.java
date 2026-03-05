@@ -88,4 +88,32 @@ public class UserRepositoryTest extends RepositoryContext {
             assertThat(foundUser).isEmpty();
         }
     }
+
+    @Nested
+    class existsByUsername_메서드는 {
+
+        @Test
+        void 존재하는_사용자면_true를_반환한다() {
+            // given
+            String username = "student";
+            String password = "password";
+            Role role = Role.STUDENT;
+
+            User user = User.builder()
+                    .username(username)
+                    .password(password)
+                    .role(role)
+                    .build();
+
+            User savedUser = userRepository.save(user);
+
+            // when & then
+            assertThat(userRepository.existsByUsername(savedUser.getUsername()));
+        }
+
+        @Test
+        void 존재하지_않는_사용자면_false를_반환한다() {
+            assertThat(userRepository.existsByUsername("nonexistent")).isFalse();
+        }
+    }
 }
