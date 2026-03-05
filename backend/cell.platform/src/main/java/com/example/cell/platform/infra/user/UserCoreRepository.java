@@ -29,6 +29,6 @@ public class UserCoreRepository implements UserRepository {
 
     @Override
     public boolean existsByUsername(String username) {
-        return false;
+        return userJpaRepository.existsByUsername(username);
     }
 }
