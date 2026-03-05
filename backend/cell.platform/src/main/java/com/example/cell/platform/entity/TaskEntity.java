@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "tasks")
 @Getter
@@ -28,6 +31,9 @@ public class TaskEntity extends BaseEntity {
     @Column
     private String uploadedFilename;
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CropEntity> crops = new ArrayList<>();
+
     @Builder
     private TaskEntity(Long id, TaskStatus status, String originalFilename, String uploadedFilename) {
         this.id = id;
@@ -43,5 +49,10 @@ public class TaskEntity extends BaseEntity {
                 .originalFilename(task.getOriginalFilename())
                 .uploadedFilename(task.getUploadedFilename())
                 .build();
+    }
+
+    public void addCrop(CropEntity cropEntity) {
+        this.crops.add(cropEntity);
+        cropEntity.assignTask(this);
     }
 }
