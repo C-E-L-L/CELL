@@ -23,7 +23,8 @@ public class UserCoreRepository implements UserRepository {
 
     @Override
     public Optional<User> findByUsername(String username) {
-        return Optional.empty();
+        Optional<UserEntity> userEntity = userJpaRepository.findByUsername(username);
+        return userEntity.map(User::of);
     }
 
     @Override
