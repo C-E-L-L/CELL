@@ -84,10 +84,10 @@ public class UserTest {
                 User user = User.of(entity);
 
                 // then
-                assertThat(entity.getId()).isEqualTo(id);
-                assertThat(entity.getUsername()).isEqualTo(username);
-                assertThat(entity.getPassword()).isEqualTo(password);
-                assertThat(entity.getRole()).isEqualTo(role);
+                assertThat(user.getId()).isEqualTo(id);
+                assertThat(user.getUsername()).isEqualTo(username);
+                assertThat(user.getPassword()).isEqualTo(password);
+                assertThat(user.getRole()).isEqualTo(role);
             }
         }
     }
