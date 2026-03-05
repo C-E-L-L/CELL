@@ -1,6 +1,7 @@
 package com.example.cell.platform.entity;
 
 import com.example.cell.platform.domain.crop.CellType;
+import com.example.cell.platform.domain.submission.Submission;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,5 +35,14 @@ public class SubmissionEntity extends BaseEntity{
         this.crop = crop;
         this.studentId = studentId;
         this.studentLabel = studentLabel;
+    }
+
+    public static SubmissionEntity of(Submission submission, CropEntity cropEntity) {
+        return SubmissionEntity.builder()
+                .id(submission.getId())
+                .crop(cropEntity)
+                .studentId(submission.getStudentId())
+                .studentLabel(submission.getStudentLabel())
+                .build();
     }
 }
