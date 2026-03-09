@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,6 +79,29 @@ public class TaskRepositoryTest extends RepositoryContext {
         @Test
         void 존재하지_않는_과제는_빈값을_반환한다() {
             assertThat(taskRepository.findById(999L)).isEmpty();
+        }
+    }
+
+    @Nested
+    class findAllByOrderByIdDesc_메서드는 {
+
+        @Test
+        void ID_내림차순으로_정렬된_과제를_반환한다() {
+            // given
+            Task first = Task.create("first.jpg", "first.jpg");
+            Task second = Task.create("second.jpg", "second.jpg");
+
+            taskRepository.save(first);
+            taskRepository.save(second);
+
+            // when
+            List<Task> tasks = taskRepository.findAllByOrderByIdDesc();
+
+            // then
+            assertAll(
+                    () -> assertThat(tasks).hasSize(2),
+                    () -> assertThat(tasks.get(0).getId()).isGreaterThan(tasks.get(1).getId())
+            );
         }
     }
 }
