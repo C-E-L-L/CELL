@@ -40,12 +40,19 @@ public class Task {
     }
 
     public static Task of(TaskEntity entity) {
-        return Task.builder()
+        Task task =  Task.builder()
                 .id(entity.getId())
                 .status(entity.getStatus())
                 .originalFilename(entity.getOriginalFilename())
                 .uploadedFilename(entity.getUploadedFilename())
                 .createdAt(entity.getCreatedAt())
                 .build();
+
+        if (entity.getCrops() != null) {
+            entity.getCrops().forEach(cropEntity ->
+                    task.getCrops().add(Crop.of(cropEntity)));
+        }
+
+        return task;
     }
 }
