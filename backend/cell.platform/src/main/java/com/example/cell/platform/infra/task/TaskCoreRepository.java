@@ -30,7 +30,7 @@ public class TaskCoreRepository implements TaskRepository {
 
     @Override
     public Optional<Task> findById(Long id) {
-        return Optional.empty();
+        return taskJpaRepository.findById(id).map(Task::of);
     }
 
     @Override
