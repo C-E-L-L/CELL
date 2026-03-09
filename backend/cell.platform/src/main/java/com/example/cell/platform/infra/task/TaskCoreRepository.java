@@ -1,7 +1,10 @@
 package com.example.cell.platform.infra.task;
 
+import com.example.cell.platform.domain.crop.Crop;
 import com.example.cell.platform.domain.task.Task;
 import com.example.cell.platform.domain.task.TaskRepository;
+import com.example.cell.platform.entity.CropEntity;
+import com.example.cell.platform.entity.TaskEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +19,13 @@ public class TaskCoreRepository implements TaskRepository {
 
     @Override
     public Task save(Task task) {
-        return null;
+        TaskEntity entity = TaskEntity.of(task);
+        for (Crop crop : task.getCrops()) {
+            CropEntity cropEntity = CropEntity.of(crop);
+            entity.addCrop(cropEntity);
+        }
+        TaskEntity saved = taskJpaRepository.save(entity);
+        return Task.of(saved);
     }
 
     @Override
