@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -53,6 +55,29 @@ public class TaskRepositoryTest extends RepositoryContext {
                     () -> assertThat(saved.getCrops().get(0).getId()).isNotNull(),
                     () -> assertThat(saved.getCrops().get(0).getCropFilename()).isEqualTo("crop.jpg")
             );
+        }
+    }
+
+    @Nested
+    class findById_메서드는 {
+
+        @Test
+        void 존재하는_과제를_조회한다() {
+            // given
+            Task task = Task.create("original_file.jpg", "uploaded_file.jpg");
+            Task saved = taskRepository.save(task);
+
+            // when
+            Optional<Task> foundTask = taskRepository.findById(saved.getId());
+
+            // then
+            assertThat(foundTask).isPresent();
+            assertThat(foundTask.get().getOriginalFilename()).isEqualTo("original_file.jpg");
+        }
+
+        @Test
+        void 존재하지_않는_과제는_빈값을_반환한다() {
+            assertThat(taskRepository.findById(999L)).isEmpty();
         }
     }
 }
