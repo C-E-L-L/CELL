@@ -35,6 +35,8 @@ public class TaskCoreRepository implements TaskRepository {
 
     @Override
     public List<Task> findAllByOrderByIdDesc() {
-        return List.of();
+        return taskJpaRepository.findAllByOrderByIdDesc().stream()
+                .map(Task::of)
+                .toList();
     }
 }
